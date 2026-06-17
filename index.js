@@ -53,7 +53,23 @@ const verifyAdmin = (req, res, next) => {
 const app = express();
 
 // MIDDLEWARES
-app.use(cors());
+const cors = require("cors");
+
+// CORS middleware configuration
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173", // Aapka local development url
+      process.env.CURRENT_URL, // Jo Render par aapne vercel ka url daala hai
+    ],
+    credentials: true, // Agar aap cookies/tokens bhej rahe hain
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
+
+// Iske baad aapka baaki ka code hoga, jaise:
+app.use(express.json());
 app.use(express.json());
 
 // DATABASE CONNECTION USING ENVIRONMENT VARIABLES
